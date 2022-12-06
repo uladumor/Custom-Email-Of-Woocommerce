@@ -41,11 +41,34 @@ function um_ajax_email_plugin_path(){
 
 
 
+
+/**
+ *  Shortcode
+ *
+ * @since 0.1
+ */
+
+function custom_email_send_button( $atts ) {
+    $a = shortcode_atts( array(
+     'label' => 'Submit',
+    ), $atts );
+
+    $output = '<form id="wc_emails_custom_form" class="woo_custom_mail">
+        <label for="toEmail">to:</label><br>
+        <input type="text" id="toEmail" name="toEmail" value=""><br><br>
+        <button class="email_sent_button" type="submit">' . esc_attr( $a['label'] ) . '</button>
+    </form>';
+
+    return $output;
+}
+
+add_shortcode( 'email_send_button', 'custom_email_send_button' );
+
+
+
 /**
 
  *  Add a custom email to the list of emails WooCommerce should load
-
- *
 
  * @since 0.1
 
@@ -57,19 +80,12 @@ function um_ajax_email_plugin_path(){
 
 function um_add_custom_email( $email_classes ) {
 
-
-
     // include our custom email class
-
     require_once( 'includes/class-wc-test-ajax-email.php' );
 
 
-
     // add the email class to the list of email classes that WooCommerce loads
-
     $email_classes['WC_Test_Ajax_Email'] = new WC_Test_Ajax_Email();
-
-
 
     return $email_classes;
 
@@ -82,13 +98,9 @@ add_filter( 'woocommerce_email_classes', 'um_add_custom_email' );
 
 
 /**
-
  *  Enqueue the scripts with apprpriate vars
-
  *
-
  * @since 0.1
-
  */
 
 function um_ajax_email_js(){
@@ -112,8 +124,6 @@ add_action( 'wp_enqueue_scripts', 'um_ajax_email_js', 20 );
 /**
 
  *  AJAX callback
-
- *
 
  * @since 0.1
 
@@ -154,11 +164,9 @@ add_action( 'woocommerce_email_actions', 'um_ajax_email_action' );
 
 
 /**
-
  *  Add a dummy button to product page
  *
- * @since 0.1
-
+ *  @since 0.1
  */
 
 function um_ajax_email_button(){

@@ -3,15 +3,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
-
  * A custom Expedited Order WooCommerce Email class
-
- *
-
  * @since 0.1
-
  * @extends \WC_Email
-
  */
 
 class WC_Test_Ajax_Email extends WC_Email {
@@ -30,7 +24,7 @@ class WC_Test_Ajax_Email extends WC_Email {
 
         // this is the title in WooCommerce Email settings
 
-        $this->title = 'Test Ajax';
+        $this->title = 'Custom Email Send';
 
 
         // this is the description in WooCommerce email settings
@@ -40,9 +34,9 @@ class WC_Test_Ajax_Email extends WC_Email {
 
         // these are the default heading and subject lines that can be overridden using the settings
 
-        $this->heading = 'Test Ajax';
+        $this->heading = 'Custom Email Heading';
 
-        $this->subject = 'Test Ajax';
+        $this->subject = 'Custom Email Subject';
 
 
 
@@ -52,7 +46,7 @@ class WC_Test_Ajax_Email extends WC_Email {
 
         $this->template_html = '/emails/test.php';
 
-        $this->template_plain = '/emails/plain/test.php';
+        $this->template_plain = '/emails/plain/test-plain.php';
 
 
 
@@ -67,7 +61,7 @@ class WC_Test_Ajax_Email extends WC_Email {
 
 
         // this sets the recipient to the settings defined below in init_form_fields()
-        
+
 
         // if none was entered, just use the WP admin email as a fallback
 
@@ -98,11 +92,10 @@ class WC_Test_Ajax_Email extends WC_Email {
         
         $toemail = (($_POST['toEmail'])) ? $_POST['toEmail'] : get_option( 'admin_email' );
 
-		$this->send( $toemail, $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );
-			
+		$this->send( $toemail, $this->get_subject(), $this->get_content(), $this->get_headers(), $this->get_attachments() );	
 
 		$this->restore_locale();
-        //echo "<pre>"; print_r($this->get_content()); echo "</pre>";
+        
     }
 
 
@@ -112,8 +105,6 @@ class WC_Test_Ajax_Email extends WC_Email {
     /**
 
      * get_content_html function.
-
-     *
 
      * @since 0.1
 
@@ -145,8 +136,6 @@ class WC_Test_Ajax_Email extends WC_Email {
 
      * get_content_plain function.
 
-     *
-
      * @since 0.1
 
      * @return string
@@ -171,13 +160,9 @@ class WC_Test_Ajax_Email extends WC_Email {
 
 
 
-
-
     /**
 
      * Initialize Settings Form Fields
-
-     *
 
      * @since 2.0
 
@@ -186,8 +171,6 @@ class WC_Test_Ajax_Email extends WC_Email {
 
 
     public function init_form_fields() {
-
-
 
 		$this->form_fields = array(
 
@@ -205,8 +188,11 @@ class WC_Test_Ajax_Email extends WC_Email {
 
             'recipient' => array(
                 'title'         => __( 'Recipient', 'custom-email' ),
+
                 'type'          => 'text',
+
                 'description'   => sprintf( __( 'Enter recipients (comma separated) for this email. Defaults to %s', 'custom-email' ), get_option( 'admin_email' ) ),
+
                 'default'       => get_option( 'admin_email' )
             ),
 
